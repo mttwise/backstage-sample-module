@@ -49,15 +49,8 @@ spec:
         title: App Unique ID
         type: string
         ui:disabled: true
-      cfnTemplateS3Key:
-        default: ../sample-cfn.template
-        description: S3 object key of module CloudFormation template.
-        title: CloudFormation Template S3 Key
-        type: string
-        ui:disabled: true
     required:
     - appName
-    - cfnTemplateS3Key
     title: Provide the Module Configuration
   steps:
   - action: aws:acdp:s3:catalog:write
@@ -69,10 +62,10 @@ spec:
         kind: Component
         metadata:
           annotations:
-            aws.amazon.com/acdp-cloudformation-template: ${{ ["dir:./", parameters.cfnTemplateS3Key] | join }}
-            aws.amazon.com/acdp-deploy-buildspec: dir:./deploy.buildspec.yaml
-            aws.amazon.com/acdp-teardown-buildspec: dir:./teardown.buildspec.yaml
-            aws.amazon.com/acdp-update-buildspec: dir:./update.buildspec.yaml
+            aws.amazon.com/acdp-cloudformation-template: dir:./sample-cfn.template
+            aws.amazon.com/acdp-deploy-buildspec: dir:.acdp/deploy.buildspec.yaml
+            aws.amazon.com/acdp-teardown-buildspec: dir:.acdp/teardown.buildspec.yaml
+            aws.amazon.com/acdp-update-buildspec: dir:.acdp/update.buildspec.yaml
             backstage.io/techdocs-ref: dir:.
           description: ${{parameters.description}}
           name: ${{parameters.componentId}}
@@ -86,7 +79,7 @@ spec:
     id: acdpCopy
     input:
       destS3KeyPrefix: ${{ steps.acdpS3CatalogWrite.output.catalogEntityS3KeyPrefix }}
-      srcPath: ./
+      srcPath: ../
     name: ACDP Copy Assets
   - action: catalog:register
     id: register
