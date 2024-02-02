@@ -1,13 +1,12 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  description: A CDK Python app for showing a basic skeleton for a CMS module
-  name: cms-sample-on-aws
+  description: sample
+  name: backstage-sample
   tags:
-  - cms
   - guide
   - sample
-  title: CMS Sample Module
+  title: backstage Sample Module
 spec:
   output:
     links:
@@ -18,14 +17,14 @@ spec:
   parameters:
   - properties:
       componentId:
-        default: cms-sample-on-aws
+        default: sample
         description: Unique name of the component
         pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
         title: Name
         type: string
         ui:field: EntityNamePicker
       description:
-        default: A CDK Python app for showing a basic skeleton for a CMS module
+        default: sample
         description: Help others understand what this component is for.
         title: Description
         type: string
@@ -45,7 +44,7 @@ spec:
     title: Provide the required information
   - properties:
       appUniqueId:
-        default: cms
+        default: 
         description: Application unique identifier used to uniquely name resources within the stack
         title: App Unique ID
         type: string
