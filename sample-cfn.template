@@ -1,0 +1,32 @@
+{
+  "Description": "sample",
+  "Parameters": {
+      "AppName": {
+          "Type": "String"
+      }
+  },
+  "Resources": {
+      "dummyssm": {
+          "Type": "AWS::SSM::Parameter",
+          "Properties": {
+              "Description": "SSM parameter",
+              "Name": {
+                  "Fn::Join": [
+                      "",
+                      [
+                          "/test/",
+                          {
+                              "Ref": "AppName"
+                          },
+                          "/sample"
+                      ]
+                  ]
+              },
+              "Type": "String",
+              "Value": {
+                  "Ref": "AppName"
+              }
+          }
+      }
+  }
+}

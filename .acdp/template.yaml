@@ -1,0 +1,105 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  description: A CDK Python app for showing a basic skeleton for a CMS module
+  name: cms-sample-on-aws
+  tags:
+  - cms
+  - guide
+  - sample
+  title: CMS Sample Module
+spec:
+  output:
+    links:
+    - entityRef: ${{ steps.register.output.entityRef }}
+      icon: catalog
+      title: Open in catalog
+  owner: aws solutions
+  parameters:
+  - properties:
+      componentId:
+        default: cms-sample-on-aws
+        description: Unique name of the component
+        pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
+        title: Name
+        type: string
+        ui:field: EntityNamePicker
+      description:
+        default: A CDK Python app for showing a basic skeleton for a CMS module
+        description: Help others understand what this component is for.
+        title: Description
+        type: string
+      owner:
+        description: Owner of the component
+        title: Owner
+        type: string
+        ui:field: OwnerPicker
+        ui:options:
+          catalogFilter:
+            kind:
+            - Group
+            - User
+    required:
+    - componentId
+    - owner
+    title: Provide the required information
+  - properties:
+      appUniqueId:
+        default: cms
+        description: Application unique identifier used to uniquely name resources within the stack
+        title: App Unique ID
+        type: string
+        ui:disabled: true
+      cfnTemplateS3Key:
+        default: sample-cfn.template
+        description: S3 object key of module CloudFormation template.
+        title: CloudFormation Template S3 Key
+        type: string
+        ui:disabled: true
+    required:
+    - appUniqueId
+    - cfnTemplateS3Key
+    title: Provide the Module Configuration
+  steps:
+  - action: aws:acdp:s3:catalog:write
+    id: acdpS3CatalogWrite
+    input:
+      componentId: ${{ parameters.componentId }}
+      entity:
+        apiVersion: backstage.io/v1alpha1
+        kind: Component
+        metadata:
+          annotations:
+            aws.amazon.com/acdp-cloudformation-template: ${{ ["dir:./", parameters.cfnTemplateS3Key] | join }}
+            aws.amazon.com/acdp-deploy-buildspec: dir:./deploy.buildspec.yaml
+            aws.amazon.com/acdp-teardown-buildspec: dir:./teardown.buildspec.yaml
+            aws.amazon.com/acdp-update-buildspec: dir:./update.buildspec.yaml
+            backstage.io/techdocs-ref: dir:.
+          description: ${{parameters.description}}
+          name: ${{parameters.componentId}}
+          namespace: acdp
+        spec:
+          lifecycle: experimental
+          owner: ${{parameters.owner}}
+          type: service
+    name: ACDP S3 Catalog Write
+  - action: aws:acdp:copy
+    id: acdpCopy
+    input:
+      destS3KeyPrefix: ${{ steps.acdpS3CatalogWrite.output.catalogEntityS3KeyPrefix }}
+      srcPath: ./
+    name: ACDP Copy Assets
+  - action: catalog:register
+    id: register
+    input:
+      catalogInfoUrl: ${{ steps.acdpS3CatalogWrite.output.s3Url }}
+    name: Register
+  - action: aws:acdp:deploy
+    id: acdpDeploy
+    input:
+      entityRef: ${{ steps.register.output.entityRef }}
+      moduleParameters:
+      - name: APP_UNIQUE_ID
+        value: ${{ parameters.appUniqueId }}
+    name: ACDP Deploy
+  type: service
