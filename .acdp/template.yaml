@@ -50,7 +50,7 @@ spec:
         type: string
         ui:disabled: true
       cfnTemplateS3Key:
-        default: sample-cfn.template
+        default: ../sample-cfn.template
         description: S3 object key of module CloudFormation template.
         title: CloudFormation Template S3 Key
         type: string
