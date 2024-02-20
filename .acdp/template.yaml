@@ -53,20 +53,18 @@ spec:
     - appName
     title: Provide the Module Configuration
   steps:
-  - action: aws:acdp:s3:catalog:write
-    id: acdpS3CatalogWrite
+  - action: aws:acdp:catalog:create
+    id: acdpCatalogCreate
+    name: ACDP S3 Catalog Create
     input:
       componentId: ${{ parameters.componentId }}
+      assetsSourcePath: dir:../
       entity:
         apiVersion: backstage.io/v1alpha1
         kind: Component
         metadata:
           annotations:
-            aws.amazon.com/acdp-cloudformation-template: dir:./sample-cfn.template
-            aws.amazon.com/acdp-deploy-buildspec: dir:.acdp/deploy.buildspec.yaml
-            aws.amazon.com/acdp-teardown-buildspec: dir:.acdp/teardown.buildspec.yaml
-            aws.amazon.com/acdp-update-buildspec: dir:.acdp/update.buildspec.yaml
-            backstage.io/techdocs-ref: dir:.
+            aws.amazon.com/acdp-deploy-on-create: "true"
           description: ${{parameters.description}}
           name: ${{parameters.componentId}}
           namespace: acdp
@@ -74,24 +72,21 @@ spec:
           lifecycle: experimental
           owner: ${{parameters.owner}}
           type: service
-    name: ACDP S3 Catalog Write
-  - action: aws:acdp:copy
-    id: acdpCopy
-    input:
-      destS3KeyPrefix: ${{ steps.acdpS3CatalogWrite.output.catalogEntityS3KeyPrefix }}
-      srcPath: ../
-    name: ACDP Copy Assets
+
   - action: catalog:register
-    id: register
+    id: catalogRegister
+    name: Backstage Catalog Register
     input:
-      catalogInfoUrl: ${{ steps.acdpS3CatalogWrite.output.s3Url }}
-    name: Register
-  - action: aws:acdp:deploy
-    id: acdpDeploy
+      catalogInfoUrl: ${{ steps.acdpCatalogCreate.output.catalogItemS3Url }}
+
+  - action: aws:acdp:configure
+    id: acdpConfigureDeploy
+    name: ACDP Configure Deploy
     input:
-      entityRef: ${{ steps.register.output.entityRef }}
-      moduleParameters:
-      - name: AppName
-        value: ${{ parameters.appName }}
-    name: ACDP Deploy
-  type: service
+      entityRef: ${{ steps.catalogRegister.output.entityRef }}
+      buildParameters:
+      - name: CFN_TEMPLATE_URL
+        value: https://raw.githubusercontent.com/mttwise/backstage-sample-module/main/sample-cfn.template
+      - name: APP_UNIQUE_ID
+        value: ${{ parameters.appUniqueId }}
+
