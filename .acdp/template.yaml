@@ -8,9 +8,10 @@ metadata:
   - sample
   title: backstage Sample Module
 spec:
+  type: service
   output:
     links:
-    - entityRef: ${{ steps.register.output.entityRef }}
+    - entityRef: ${{ steps.catalogRegister.output.entityRef }}
       icon: catalog
       title: Open in catalog
   owner: aws solutions
