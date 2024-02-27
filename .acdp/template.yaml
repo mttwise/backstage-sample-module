@@ -88,6 +88,5 @@ spec:
       buildParameters:
       - name: CFN_TEMPLATE_URL
         value: https://raw.githubusercontent.com/mttwise/backstage-sample-module/main/sample-cfn.template
-      - name: APP_UNIQUE_ID
-        value: ${{ parameters.appUniqueId }}
+
 
