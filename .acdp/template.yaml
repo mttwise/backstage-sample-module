@@ -68,7 +68,7 @@ spec:
             backstage.io/techdocs-ref: dir:.
           description: ${{parameters.description}}
           name: ${{parameters.componentId}}
-          namespace: acdp
+          namespace: samples
         spec:
           lifecycle: experimental
           owner: ${{parameters.owner}}

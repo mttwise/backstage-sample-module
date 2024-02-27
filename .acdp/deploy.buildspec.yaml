@@ -7,8 +7,6 @@ phases:
       - |
         aws cloudformation create-stack \
         --stack-name "${MODULE_STACK_NAME}" \
-        --template-url "${MODULE_TEMPLATE_URL}" \
+        --template-url "${CFN_TEMPLATE_URL}" \
         --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
-        --role-arn "${CLOUDFORMATION_ROLE_ARN}" \
-        --parameters \
-        ParameterKey="AppUniqueId",ParameterValue="${APP_UNIQUE_ID}"
+        --role-arn "${CLOUDFORMATION_ROLE_ARN}"
