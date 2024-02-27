@@ -18,7 +18,7 @@ spec:
   parameters:
   - properties:
       componentId:
-        default: sample
+        default: backstage-sample
         description: Unique name of the component
         pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
         title: Name
@@ -46,10 +46,9 @@ spec:
   - properties:
       appName:
         default: sample-app
-        description: Application unique identifier used to uniquely name resources within the stack
-        title: App Unique ID
+        description: App name
+        title: App Name
         type: string
-        ui:disabled: true
     required:
     - appName
     title: Provide the Module Configuration
@@ -66,6 +65,7 @@ spec:
         metadata:
           annotations:
             aws.amazon.com/acdp-deploy-on-create: "true"
+            backstage.io/techdocs-ref: dir:.
           description: ${{parameters.description}}
           name: ${{parameters.componentId}}
           namespace: acdp
