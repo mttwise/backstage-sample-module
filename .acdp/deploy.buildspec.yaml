@@ -4,9 +4,16 @@ phases:
   build:
     commands:
       # Build and deploy
-      - |
-        aws cloudformation create-stack \
-        --stack-name "${MODULE_STACK_NAME}" \
-        --template-url "${CFN_TEMPLATE_URL}" \
-        --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
-        --role-arn "${CLOUDFORMATION_ROLE_ARN}"
+      - echo "$CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - echo "$CODEBUILD_SOURCE_REPO_URL"
+      - echo "$CODEBUILD_SRC_DIR"
+      - pwd
+      - ls
+      - cd "$CODEBUILD_SRC_DIR"
+      - ls
+      # - |
+      #   aws cloudformation create-stack \
+      #   --stack-name "${MODULE_STACK_NAME}" \
+      #   --template-url "${CFN_TEMPLATE_URL}" \
+      #   --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
+      #   --role-arn "${CLOUDFORMATION_ROLE_ARN}"
