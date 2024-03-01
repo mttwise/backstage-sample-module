@@ -12,8 +12,8 @@ phases:
       - cd "$CODEBUILD_SRC_DIR"
       - ls
       - |
-      aws cloudformation deploy \
-      --stack-name ${MODULE_STACK_NAME} \
-      --template-file ./sample-cfn.template \
-      --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
-      --role-arn "${CLOUDFORMATION_ROLE_ARN}"
+        aws cloudformation deploy \
+        --stack-name "${MODULE_STACK_NAME}" \
+        --template-file "./sample-cfn.template" \
+        --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
+        --role-arn "${CLOUDFORMATION_ROLE_ARN}"
