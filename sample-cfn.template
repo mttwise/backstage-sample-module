@@ -2,7 +2,8 @@
   "Description": "sample",
   "Parameters": {
       "AppName": {
-          "Type": "String"
+          "Type": "String",
+          "Default": "dummy"
       }
   },
   "Resources": {
