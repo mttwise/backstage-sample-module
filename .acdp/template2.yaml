@@ -64,7 +64,7 @@ spec:
         metadata:
           annotations:
             aws.amazon.com/acdp-deploy-on-create: "true"
-            aws.amazon.com/acdp-deploy-buildspec: url:https://github.com/mttwise/backstage-sample-module/blob/main/.acdp/deploy.buildspec.yaml
+            aws.amazon.com/acdp-deploy-buildspec: url:https://github.com/mttwise/backstage-sample-module/blob/main/.acdp/deploy2.buildspec.yaml
             backstage.io/techdocs-ref: dir:.
           description: ${{parameters.description}}
           name: ${{parameters.componentId}}
