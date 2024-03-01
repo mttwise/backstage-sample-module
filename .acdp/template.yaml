@@ -86,7 +86,7 @@ spec:
     input:
       entityRef: ${{ steps.catalogRegister.output.entityRef }}
       buildParameters:
-      - name: SAMPLE_VALUE
+      - name: APP_NAME
         value: sample
 
 
