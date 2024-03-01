@@ -6,7 +6,7 @@ metadata:
   tags:
   - guide
   - sample
-  title: backstage Sample Module
+  title: Backstage Sample Module
 spec:
   type: service
   output:
