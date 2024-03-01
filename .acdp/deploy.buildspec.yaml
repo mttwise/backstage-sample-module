@@ -18,5 +18,5 @@ phases:
         --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
         --role-arn "${CLOUDFORMATION_ROLE_ARN}" \
         --parameter-overrides \
-			    "AcdpUniqueId"="${ACDP_UNIQUE_ID}"
+          "AcdpUniqueId"="${ACDP_UNIQUE_ID}"
 
