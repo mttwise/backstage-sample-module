@@ -86,7 +86,7 @@ spec:
     input:
       entityRef: ${{ steps.catalogRegister.output.entityRef }}
       buildParameters:
-      - name: CFN_TEMPLATE_URL
-        value: https://raw.githubusercontent.com/mttwise/backstage-sample-module/main/sample-cfn.template
+      - name: SAMPLE_VALUE
+        value: sample
 
 
