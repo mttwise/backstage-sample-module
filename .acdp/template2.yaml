@@ -86,4 +86,7 @@ spec:
     name: ACDP Configure Deploy
     input:
       entityRef: ${{ steps.catalogRegister.output.entityRef }}
+      buildParameters:
+      - name: APP_NAME
+        value: sample2
 
