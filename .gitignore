@@ -177,10 +177,6 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-**/.acdp/docs
-**/.acdp/site
-
 # mypy
 .mypy_cache/
 .dmypy.json
