@@ -5,4 +5,5 @@ metadata:
   description: A collection of all Backstage templates
 spec:
   targets:
-    - ./backstage-sample-module/.acdp/template.yaml
+    - ./sample-module-with-acdp/template.yaml
+    - ./sample-module-with-owner-hosted-cfn/template.yaml

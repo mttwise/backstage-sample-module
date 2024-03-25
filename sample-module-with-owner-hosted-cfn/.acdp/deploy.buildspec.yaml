@@ -4,8 +4,9 @@ phases:
   build:
     commands:
       # Build and deploy
-      - git clone https://github.com/mttwise/backstage-sample-module
+      - git clone $REPO_URL
       - cd backstage-sample-module
+      - git checkout $REPO_BRANCH_NAME
       - |
         aws cloudformation deploy \
         --stack-name ${MODULE_STACK_NAME} \

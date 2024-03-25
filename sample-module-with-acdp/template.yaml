@@ -2,11 +2,11 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   description: sample
-  name: backstage-sample
+  name: sample-module-with-acdp
   tags:
   - guide
   - sample
-  title: Backstage Sample Module
+  title: Sample Module With ACDP
 spec:
   type: service
   output:
@@ -18,17 +18,21 @@ spec:
   parameters:
   - properties:
       componentId:
-        default: backstage-sample
+        default: sample-module-with-acdp
         description: Unique name of the component
         pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
         title: Name
         type: string
         ui:field: EntityNamePicker
-      description:
-        default: sample
-        description: Help others understand what this component is for.
-        title: Description
+      gitBranch:
+        default: release/v1.0.0
+        description: branch to deploy
+        pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
+        title: Git Branch Ref
         type: string
+        enum:
+        - 'main'
+        - 'release/v1.0.0'
       owner:
         description: Owner of the component
         title: Owner
@@ -58,7 +62,7 @@ spec:
     name: ACDP S3 Catalog Create
     input:
       componentId: ${{ parameters.componentId }}
-      assetsSourcePath: dir:../
+      assetsSourcePath: url:https://github.com/mttwise/backstage-sample-module/tree/${parameters.gitBranch}
       entity:
         apiVersion: backstage.io/v1alpha1
         kind: Component
@@ -66,7 +70,7 @@ spec:
           annotations:
             aws.amazon.com/acdp-deploy-on-create: "true"
             backstage.io/techdocs-ref: dir:.
-          description: ${{parameters.description}}
+          description: Sample module
           name: ${{parameters.componentId}}
           namespace: samples
         spec:
@@ -87,6 +91,8 @@ spec:
       entityRef: ${{ steps.catalogRegister.output.entityRef }}
       buildParameters:
       - name: APP_NAME
-        value: sample
-
-
+        value: ${{parameters.componentId}}
+      - name: REPO_URL
+        value: https://github.com/mttwise/backstage-sample-module
+      - name: REPO_BRANCH
+        value: ${{parameters.gitBranch}}
