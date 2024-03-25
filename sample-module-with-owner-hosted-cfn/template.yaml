@@ -2,11 +2,11 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   description: sample
-  name: backstage-sample
+  name: sample-module-with-owner-hosted-cfn
   tags:
   - guide
   - sample
-  title: Backstage Sample Module
+  title: Sample Module with Owner Hosted CFN
 spec:
   type: service
   output:
