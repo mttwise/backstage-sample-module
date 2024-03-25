@@ -62,7 +62,7 @@ spec:
     name: ACDP S3 Catalog Create
     input:
       componentId: ${{ parameters.componentId }}
-      assetsSourcePath: url:https://github.com/mttwise/backstage-sample-module/tree/${parameters.gitBranch}
+      assetsSourcePath: url:https://github.com/mttwise/backstage-sample-module/tree/${{parameters.gitBranch}}
       entity:
         apiVersion: backstage.io/v1alpha1
         kind: Component
