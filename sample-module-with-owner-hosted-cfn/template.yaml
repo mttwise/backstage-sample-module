@@ -25,14 +25,14 @@ spec:
         type: string
         ui:field: EntityNamePicker
       gitBranch:
-        default: release/v1.0.0
+        default: v1.0.0
         description: branch to deploy
         pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
         title: Git Branch Ref
         type: string
         enum:
         - 'main'
-        - 'release/v1.0.0'
+        - 'v1.0.0'
       owner:
         description: Owner of the component
         title: Owner
