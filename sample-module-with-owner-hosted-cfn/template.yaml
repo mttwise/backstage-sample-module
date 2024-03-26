@@ -27,7 +27,7 @@ spec:
       gitBranch:
         default: v1.0.0
         description: branch to deploy
-        pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
+        pattern: '[a-zA-Z0-9\/-]'
         title: Git Branch Ref
         type: string
         enum:
