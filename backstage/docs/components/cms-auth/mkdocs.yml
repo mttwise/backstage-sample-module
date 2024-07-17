@@ -1,0 +1,18 @@
+docs_dir: ./docs
+edit_uri: blob/main/source/modules/cms_auth
+nav:
+- Home: README.md
+- "Issue Tracker \u2197": https://github.com/aws-solutions/connected-mobility-solution-on-aws/issues
+- "Solution Homepage \u2197": https://aws.amazon.com/solutions/implementations/connected-mobility-solution-on-aws/
+- "Implementation Guide \u2197": https://docs.aws.amazon.com/solutions/latest/connected-mobility-solution-on-aws/solution-overview.html
+plugins:
+- techdocs-core
+repo_name: GitHub
+repo_url: https://github.com/aws-solutions/connected-mobility-solution-on-aws
+site_author: AWS Industrial Solutions Team
+site_description: A CDK Python app for authenticating CMS users and services
+site_dir: ./site
+site_name: cms-auth
+site_url: https://aws.amazon.com/solutions/implementations/connected-mobility-solution-on-aws/
+theme:
+  name: readthedocs

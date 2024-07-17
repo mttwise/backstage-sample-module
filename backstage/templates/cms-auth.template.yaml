@@ -1,16 +1,17 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  description: sample
-  name: backstage-sample-auth
-  tags:
-  - guide
-  - sample
-  title: Backstage Sample Module
   annotations:
     backstage.io/techdocs-ref: dir:../docs/components/cms-auth/
+  description: A CDK Python app for authenticating CMS users and services
+  name: cms-auth
+  tags:
+  - cms
+  - auth
+  - authorization-code
+  - token-validation
+  title: CMS Auth Module
 spec:
-  type: service
   output:
     links:
     - entityRef: ${{ steps.catalogRegister.output.entityRef }}
@@ -20,14 +21,14 @@ spec:
   parameters:
   - properties:
       componentId:
-        default: backstage-sample
+        default: cms-auth
         description: Unique name of the component
         pattern: '[a-zA-Z][-a-zA-Z0-9]*[a-zA-Z]'
         title: Name
         type: string
         ui:field: EntityNamePicker
       description:
-        default: sample
+        default: A CDK Python app for authenticating CMS users and services
         description: Help others understand what this component is for.
         title: Description
         type: string
@@ -46,49 +47,49 @@ spec:
     - owner
     title: Provide the required information
   - properties:
-      appName:
-        default: sample-app
-        description: App name
-        title: App Name
+      appUniqueId:
+        default: cms
+        description: Application unique identifier used to uniquely name resources within the stack
+        title: App Unique ID
         type: string
+        ui:disabled: true
     required:
-    - appName
+    - appUniqueId
     title: Provide the Module Configuration
   steps:
   - action: aws:acdp:catalog:create
     id: acdpCatalogCreate
-    name: ACDP S3 Catalog Create
     input:
+      assetsSourcePath: dir:../acdp/cms-auth/
       componentId: ${{ parameters.componentId }}
-      assetsSourcePath: dir:../
+      docsSiteSourcePath: dir:../docs/components/cms-auth/site/
       entity:
         apiVersion: backstage.io/v1alpha1
         kind: Component
         metadata:
           annotations:
-            aws.amazon.com/acdp-deploy-on-create: "true"
-            backstage.io/techdocs-ref: dir:.
+            aws.amazon.com/acdp-deploy-on-create: 'true'
           description: ${{parameters.description}}
           name: ${{parameters.componentId}}
-          namespace: samples
+          namespace: acdp
         spec:
           lifecycle: experimental
           owner: ${{parameters.owner}}
           type: service
-
+    name: ACDP S3 Catalog Create
   - action: catalog:register
     id: catalogRegister
-    name: Backstage Catalog Register
     input:
       catalogInfoUrl: ${{ steps.acdpCatalogCreate.output.catalogItemS3Url }}
-
+    name: Backstage Catalog Register
   - action: aws:acdp:configure
     id: acdpConfigureDeploy
-    name: ACDP Configure Deploy
     input:
-      entityRef: ${{ steps.catalogRegister.output.entityRef }}
       buildParameters:
-      - name: APP_NAME
-        value: sample
-
-
+      - name: CFN_TEMPLATE_URL
+        value: https://acdp-assets-025790976786-us-east-1.s3.amazonaws.com/connected-mobility-solution-on-aws/v1.1.4/cms-auth/cms-auth.template
+      - name: APP_UNIQUE_ID
+        value: ${{ parameters.appUniqueId }}
+      entityRef: ${{ steps.catalogRegister.output.entityRef }}
+    name: ACDP Configure Deploy
+  type: service
